@@ -1,0 +1,10 @@
+[
+  {"name": "OpenAI", "url": "https://openai.com/news/rss.xml", "domains": ["openai.com"], "mode": "all", "prio": 3},
+  {"name": "Google DeepMind", "url": "https://deepmind.google/blog/rss.xml", "domains": ["deepmind.google", "deepmind.com"], "mode": "all", "prio": 3},
+  {"name": "Hugging Face", "url": "https://huggingface.co/blog/feed.xml", "domains": ["huggingface.co"], "mode": "all", "prio": 2},
+  {"name": "Google AI", "url": "https://blog.google/technology/ai/rss/", "domains": ["blog.google"], "mode": "all", "prio": 2},
+  {"name": "NVIDIA", "url": "https://blogs.nvidia.com/feed/", "domains": ["nvidia.com"], "mode": "filter", "prio": 1},
+  {"name": "Microsoft AI", "url": "https://blogs.microsoft.com/ai/feed/", "domains": ["microsoft.com"], "mode": "filter", "prio": 1},
+  {"name": "AWS Machine Learning", "url": "https://aws.amazon.com/blogs/machine-learning/feed/", "domains": ["aws.amazon.com"], "mode": "filter", "prio": 1},
+  {"name": "GitHub", "url": "https://github.blog/ai-and-ml/feed/", "domains": ["github.blog"], "mode": "filter", "prio": 1}
+]
