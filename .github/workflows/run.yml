@@ -1,0 +1,44 @@
+name: ai-daily-radar
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+concurrency:
+  group: radar
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: |
+          sudo apt-get update -y >/dev/null
+          sudo apt-get install -y ffmpeg fonts-dejavu-core >/dev/null
+          pip install -r requirements.txt
+      - name: Check feeds (manual runs only)
+        if: github.event_name == 'workflow_dispatch'
+        run: python src/main.py --check
+      - name: Run
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_EN: ${{ secrets.YT_REFRESH_EN }}
+          VOICE: "1"
+          # عند إضافة لغة: أضف سطراً مثل YT_REFRESH_AR هنا
+        run: python src/main.py
+      - name: Save state
+        run: |
+          git config user.name "radar-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add state
+          if ! git diff --cached --quiet; then
+            git commit -m "state $(date -u +%F-%H%M)"
+            for i in 1 2 3; do git pull --rebase && git push && break || sleep 5; done
+          fi
